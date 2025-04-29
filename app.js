@@ -2,6 +2,7 @@
  const app= require("express")()
  // import module
  const db = require('./database/config')
+ const dotenv = require('dotenv').config()
 
  app.get("/",(req,res)=>{
   res.send("Hello");
