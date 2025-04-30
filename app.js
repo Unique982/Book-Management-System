@@ -1,8 +1,13 @@
 // express required
- const app= require("express")()
+ const express= require("express")
  // import module
- const db = require('./database/config')
+ const {books} = require('./database/config')
  const dotenv = require('dotenv').config()
+
+const app = express()
+ // Josn Data reader
+
+ app.use(express.json())
 
  app.get("/",(req,res)=>{
   res.send("Hello");
@@ -16,14 +21,21 @@
  
 //  book Store Project  code day 7 crud 
 // get book 
-app.get("/book",(req,res)=>{
+app.get("/book",async (req,res)=>{
+const datas = await books.findAll();
   res.json({
-    msg:"Book Get Successfully"
+    msg:"Book Get Successfully",
+    datas
   })
 })
 
 // post book 
-app.post("/book",(req,res)=>{
+app.post("/book", async(req,res)=>{
+  const {bookName,bookPrice,bookAuthor,bookGenre} = req.body;
+  console.log(req.body)
+  await books.create({
+  bookName,bookPrice,bookAuthor,bookGenre
+  })
   res.json({
     mgs:"Book Post Sucessfully"
   })
