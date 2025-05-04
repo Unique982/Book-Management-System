@@ -30,14 +30,30 @@ exports.addBook = async(req,res)=>{
 }
 
 // update book 
- exports.updateBook = (req,res)=>{
+ exports.updateBook = async(req,res)=>{
+  try{
+  const id = req.params.id
+  const {bookName,bookPrice,bookAuthor,bookGenre} = req.body;
+  await books.update({bookName:bookName,bookPrice:bookPrice,bookAuthor:bookAuthor,bookGenre:bookGenre},{where:{
+    id:id
+  }})
   res.json({
     msg:"Book Update Successfully"
   })
+} catch(err){
+  res.json({
+    message:"Error"
+  })
+
+}
 }
 
 // delete Book
-exports.deleteBook =(req,res)=>{
+exports.deleteBook =async(req,res)=>{
+  const id = req.params.id
+  const datas = await books.destroy({
+    where:{id}
+  })
   res.json({
     msg:"Book Delete Successfully"
   })
@@ -47,7 +63,6 @@ exports.deleteBook =(req,res)=>{
 exports.singleFetchBook =async(req,res)=>{
   const id = req.params.id
   const datas = await books.findByPk(id)
-
   res.json({
     message:"Single data Fetched Successfully",
     datas
