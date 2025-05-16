@@ -3,11 +3,15 @@
  // import module
 
  const dotenv = require('dotenv').config()
-
+// cros
+const cros = require('cros')
 const app = express()
  // Josn Data reader
 
  app.use(express.json())
+ app.use(cros({
+  origin:"http://localhost:5173"
+ }))
 
  // route 
  const bookRouter = require('./routes/bookRoutes');
